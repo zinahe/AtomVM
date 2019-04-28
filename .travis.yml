@@ -285,6 +285,32 @@ matrix:
       before_install:
         - eval "${MATRIX_EVAL}"
 
+    - name: "xcode 9.4 (with -O2) on macOS with OTP 21"
+      os: osx
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          sources:
+            - sourceline: deb https://packages.erlang-solutions.com/ubuntu trusty contrib
+              key_url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+          packages:
+            - gperf
+            - valgrind
+            - erlang
+      script:
+        - export CFLAGS="-O2 -ggdb"
+        - export CXXFLAGS="-O2 -ggdb"
+        - mkdir -p build
+        - cd build
+        - cmake ..
+        - make
+        - valgrind ./tests/test-erlang
+        - ./tests/test-erlang
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+
     - name: "ESP32 platform"
       services:
         - docker
