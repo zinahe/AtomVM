@@ -2986,6 +2986,12 @@ static const char *const out_of_memory_atom = "\xD" "out_of_memory";
             }
 #endif
 
+            case OP_PUT_TUPLE2: {
+                fprintf(stderr, "put_tuple2\n");
+                abort();
+                break;
+            }
+
             default:
                 printf("Undecoded opcode: %i\n", code[i]);
                 #ifdef IMPL_EXECUTE_LOOP
